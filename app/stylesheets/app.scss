@@ -6,8 +6,9 @@ body {
   font-family: 'Open Sans';
   color: white;
   min-height: 100%;
-  background: -webkit-radial-gradient(  #2b1339, #380c77);
-  background: radial-gradient(   #2b1339, #380c77);
+/*  background: -webkit-radial-gradient(  #2b1339, #380c77);
+  background: radial-gradient(   #2b1339, #380c77);  */
+  background-image: linear-gradient(to bottom right, #2b1339, #380c77,  #5805a9);
 }
 
 body.landing {
