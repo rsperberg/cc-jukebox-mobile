@@ -70,7 +70,18 @@ if (document.URL.match(/\/album.html/)) {
 // Wait until the HTML is fully processed.
 $(document).ready(function() {
    //   console.log('album.js');
-   // var album = albumMarconi;
-changeAlbumView(albumMarconi);
+   var theAlbum = albumMarconi;
+changeAlbumView(theAlbum);
+$('.album-container').click(function(){
+   if (theAlbum === albumMarconi) {
+      changeAlbumView(albumPicasso);
+      theAlbum = albumPicasso;
+   } else {
+      changeAlbumView(albumMarconi);
+      theAlbum = albumMarconi;
+   }
+   });
+
+
 });
 }
