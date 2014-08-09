@@ -29,16 +29,62 @@ songs: [
   ]
 };
 
+var currentlyPlayingSong = null;
+
 var createSongRow = function(songNumber, songName, songLength) {
    var template =
       '<tr>'
-   + '  <td class="col-md-1">' + songNumber + '</td>'
+   + '  <td class="song-number col-md-1" data-song-number="' + songNumber + '">' + songNumber + '</td>'
    + '  <td class="col-md-9">' + songName + '</td>'
    + '  <td class="col-md-2">' + songLength + '</td>'
    + '</tr>'
    ;
-   return $(template);
+   /* return $(template); */
+   // Instead of returning the row immediately, we'll attach hover
+   // functionality to it first.
+   var $row = $(template);
+
+   // Change from a song number to play button when the song isn't playing and we hover over the row.
+   var onHover = function(event) {
+      songNumberCell = $(this).find('.song-number');
+      songNumber = songNumberCell.data('song-number');
+      if (songNumber !== currentlyPlayingSong) {
+         songNumberCell.html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
+      }
+   };
+   // Change from a play button to song number when the song isn't playing and we hover off the row.
+   var offHover = function(event) {
+      songNumberCell = $(this).find('.song-number');
+      songNumber = songNumberCell.data('song-number');
+      if (songNumber !== currentlyPlayingSong) {
+         songNumberCell.html(songNumber);
+      }
+   };
+
+   // Toggle the play, pause, and song number based on the button clicked.
+   var clickHandler = function(event) {
+      songNumber = $(this).data('song-number');
+      if (currentlyPlayingSong !== null) {
+         // Revert to song number for currently playing song because user started playing new song.
+         currentlyPlayingCell = $('.song-number[data-song-number="' + currentlyPlayingSong + '"]');
+         currentlyPlayingCell.html(currentlyPlayingSong);
+      }
+      if (currentlyPlayingSong !== songNumber) {
+         // Switch from Play -> Pause button to indicate new song is playing.
+         $(this).html('<a class="album-song-button"><i class="fa fa-pause"></i></a>');
+         currentlyPlayingSong = songNumber;
+      } else if (currentlyPlayingSong === songNumber) {
+         // Switch from Pause -> Play button to pause currently playing song.
+         $(this).html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
+         currentlyPlayingSong = null;
+      }
+   };
+
+   $row.find('.song-number').click(clickHandler);
+   $row.hover(onHover, offHover);
+   return $row;
 };
+
 var changeAlbumView = function(album) {
    // update the album title
    var $albumTitle = $('.album-title');
@@ -72,16 +118,6 @@ $(document).ready(function() {
    //   console.log('album.js');
    var theAlbum = albumMarconi;
 changeAlbumView(theAlbum);
-$('.album-container').click(function(){
-   if (theAlbum === albumMarconi) {
-      changeAlbumView(albumPicasso);
-      theAlbum = albumPicasso;
-   } else {
-      changeAlbumView(albumMarconi);
-      theAlbum = albumMarconi;
-   }
-   });
-
 
 });
 }
