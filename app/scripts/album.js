@@ -1,32 +1,62 @@
 // Example album
-var albumPicasso = {
- name: 'The Colors',
-   artist: 'Pablo Picasso',
-   label: 'Cubism',
-   year: '1881',
-   albumArtUrl: '/images/album-placeholder.png',
+var albumDouble = {
+ name: 'Double Sextet / 2x5',
+   artist: 'Steve Reich',
+   label: 'Nonesuch',
+   year: '2010',
+   albumArtUrl: '/images/double_sextet_600.jpg',
    songs: [
-      {name: 'Blue', length: '4:26'},
-      {name: 'Green', length: '3:14'},
-      {name: 'Red', length: '5:01'},
-      {name: 'Pink', length: '3:21'},
-      {name: 'Magenta', length: '2:15'}
+      {name: 'I. Fast', length: '8:39'},
+      {name: 'II. Slow', length: '6:43'},
+      {name: 'III. Fast', length: '6:56'},
+      {name: 'I. Fast', length: '10:12'},
+      {name: 'II. Slow', length: '3:12'},
+      {name: 'III. Fast', length: '7:08'},
    ]
 };
 // Another Example Album
-var albumMarconi = {
-name: 'The Telephone',
-artist: 'Guglielmo Marconi',
-label: 'EM',
-year: '1909',
-albumArtUrl: '/images/album-placeholder.png',
+var albumWorks = {
+name: 'Works 1965-1995',
+artist: 'Steve Reich',
+label: 'Nonesuch',
+year: '2005',
+albumArtUrl: '/images/works_1965-1995_600.jpg',
 songs: [
-    {name: 'Hello, Operator?', length: '1:01'},
-    {name: 'Ring, ring, ring', length: '5:01'},
-    {name: 'Fits in your pocket', length: '3:21'},
-    {name: 'Can you hear me now?', length: '3:14'},
-    {name: 'Wrong phone number', length: '2:15'}
+    {name: 'Come Out (1966)', length: '12:58'},
+    {name: 'Piano Phase (1967)', length: '20:36'},
+    {name: 'It\'s Gonna Rain, Part I (1965)', length: '7:59'},
+    {name: 'It\'s Gonna Rain, Part II (1965)', length: '7:53'},
+    {name: 'Four Organs / 1970', length: '15:52'},
+    {name: 'Drumming: Part I', length: '17:30'},
+    {name: 'Drumming: Part II', length: '18:10'},
+    {name: 'Drumming: Part III', length: '11:12'},
+    {name: 'Drumming: Part IV', length: '9:50'},
+    {name: 'Music for Mallet Instruments, Voices and Organ', length: '16:58'},
+    {name: 'Clapping Music (1972)', length: '4:48'},
+    {name: 'Six Marimbas', length: '16:19'}
   ]
+};
+var albumMusic18 = {
+ name: 'Music for 18 Musicians',
+   artist: 'Steve Reich',
+   label: 'Nonesuch',
+   year: '1998',
+   albumArtUrl: '/images/music_for_18_musicians_600.jpg',
+   songs: [
+      {name: 'Music for 18 Musicians: Pulses', length: '5:26'},
+      {name: 'Music for 18 Musicians: Section I', length: '3:58'},
+      {name: 'Music for 18 Musicians: Section II', length: '5:13'},
+      {name: 'Music for 18 Musicians: Section IIIA', length: '3:55'},
+      {name: 'Music for 18 Musicians: Section IIIB', length: '3:45'},
+      {name: 'Music for 18 Musicians: Section IV', length: '6:36'},
+      {name: 'Music for 18 Musicians: Section V', length: '6:48'},
+      {name: 'Music for 18 Musicians: Section VI', length: '4:54'},
+      {name: 'Music for 18 Musicians: Section VII', length: '4:19'},
+      {name: 'Music for 18 Musicians: Section VIII', length: '3:34'},
+      {name: 'Music for 18 Musicians: Section IX', length: '5:23'},
+      {name: 'Music for 18 Musicians: Section X', length: '1:50'},
+      {name: 'Music for 18 Musicians: Section XI', length: '5:44'},
+      {name: 'Music for 18 Musicians: Pulses', length: '6:10'}   ]
 };
 
 var currentlyPlayingSong = null;
@@ -116,7 +146,7 @@ if (document.URL.match(/\/album.html/)) {
 // Wait until the HTML is fully processed.
 $(document).ready(function() {
    //   console.log('album.js');
-   var theAlbum = albumMarconi;
+   var theAlbum = albumDouble;
 changeAlbumView(theAlbum);
 
 });
