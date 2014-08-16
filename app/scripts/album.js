@@ -6,12 +6,12 @@ var albumDouble = {
    year: '2010',
    albumArtUrl: '/images/double_sextet_600.jpg',
    songs: [
-      {name: 'I. Fast', length: '8:39'},
-      {name: 'II. Slow', length: '6:43'},
-      {name: 'III. Fast', length: '6:56'},
-      {name: 'I. Fast', length: '10:12'},
-      {name: 'II. Slow', length: '3:12'},
-      {name: 'III. Fast', length: '7:08'},
+      {name: 'Double Sextet I. Fast', length: '8:39'},
+      {name: 'Double Sextet II. Slow', length: '6:43'},
+      {name: 'Double Sextet III. Fast', length: '6:56'},
+      {name: '2x5 I. Fast', length: '10:12'},
+      {name: '2x5 II. Slow', length: '3:12'},
+      {name: '2x5 III. Fast', length: '7:08'},
    ]
 };
 // Another Example Album
