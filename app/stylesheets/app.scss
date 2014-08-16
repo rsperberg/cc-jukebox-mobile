@@ -227,7 +227,7 @@ td.song-number {
    height: 70px;
    text-align: center;
  }
- 
+
  /* added to handle player bar ckpt 31  */
 .player-bar {
    position: fixed;
@@ -279,7 +279,13 @@ td.song-number {
  
  .player-bar .play-controls .play-pause {
    margin-right: 60px;
-   font-size: 30px
+   font-size: 30px;
+    opacity: 1.0;
+   transition: all 1000ms linear;
+ }
+ 
+.player-bar .play-controls .play-pause:hover {
+  opacity: 0.5;
  }
  
  .player-bar .currently-playing {
