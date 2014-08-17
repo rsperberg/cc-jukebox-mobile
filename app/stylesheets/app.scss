@@ -1,3 +1,8 @@
+@import "landing";
+@import "album";
+@import "collection";
+@import "player_bar";
+
 html {
   height: 100%;
 }
@@ -16,7 +21,7 @@ body.landing {
   background: #5B5579;
   padding-bottom: 0;
 }
-
+/*  Moved to _landing.scss
 .hero-content {
     background: #2F1D57;
     padding: 100px 0;
@@ -49,7 +54,7 @@ body.landing {
   .selling-points .point p {
     font-size: 14px;
   }
-
+*/
  /*
   .nav-bar {
     background: #2c1231;
@@ -66,7 +71,7 @@ body.landing {
  .player-header-nav {
    background-color: rgba(123, 70, 163, .9);
  }
-
+/* moved to _album.scss
  .album-header-container {
    margin-top: 55px;
    margin-bottom: 40px;
@@ -124,7 +129,9 @@ body.landing {
    padding: 20px;
    border-top: 1px solid rgba(255, 255, 255, .4);
  }
+ */
 
+/*  Moved to _collection.scss
 .collection-album-container {
    margin-top: 30px;
    margin-bottom: 20px;
@@ -192,7 +199,9 @@ body.landing {
 .collection-album-container .collection-overlay-button .fa-play {
   padding-left: 5px;
 }
+*/
 
+/* moved to _album.scss
 .album-song-button {
    text-align: center;
    font-size: 14px;
@@ -227,8 +236,10 @@ td.song-number {
    height: 70px;
    text-align: center;
  }
+*/
 
  /* added to handle player bar ckpt 31  */
+ /*
 .player-bar {
    position: fixed;
    bottom: 0;
@@ -238,31 +249,31 @@ td.song-number {
    background: rgba(255, 255, 255, 0.3);
    z-index: 100;
  }
- 
- 
+
+
  .player-bar a, .player-bar a:hover {
    color: white;
    cursor: pointer;
    text-decoration: none;
  }
- 
- 
+
+
  .player-bar .container {
    display: table;
    padding: 0;
    min-height: 100%;
  }
- 
+
  .player-bar-control-group {
    display: table-cell;
    vertical-align: middle;
  }
- 
+
  .player-bar .left-controls {
    width: 25%;
    text-align: left;
  }
- 
+
  .player-bar .right-controls {
    width: 25%;
    text-align: right;
@@ -272,28 +283,28 @@ td.song-number {
    font-size: 20px;
    vertical-align: middle;
  }
- 
+
  .player-bar .play-controls .previous {
    margin-right: 65px;
  }
- 
+
  .player-bar .play-controls .play-pause {
    margin-right: 60px;
    font-size: 30px;
     opacity: 1.0;
    transition: all 1000ms linear;
  }
- 
+
 .player-bar .play-controls .play-pause:hover {
   opacity: 0.5;
  }
- 
+
  .player-bar .currently-playing {
    width: 50%;
    text-align: center;
    position: relative;
  }
- 
+
  .player-bar .currently-playing .song-name,
  .player-bar .currently-playing .artist-name
  {
@@ -305,30 +316,30 @@ td.song-number {
    font-size: 16px;
    font-weight: 300;
  }
- 
+
  .player-bar .currently-playing .song-name {
    top: 20px;
  }
- 
+
  .player-bar .currently-playing .artist-name {
    bottom: 20px;
  }
- 
+
  .seek-control {
    position: relative;
  }
- 
+
  .seek-control .current-time {
    position: absolute;
    top: 10px;
  }
- 
+
  .seek-control .total-time {
    position: absolute;
    right: 0;
    top: 10px;
  }
- 
+
  .seek-bar {
    height: 5px;
    background: rgba(255, 255, 255, 0.3);
@@ -336,14 +347,14 @@ td.song-number {
    position: relative;
    cursor: pointer;
  }
- 
+
  .seek-bar .fill {
    background: white;
    width: 36%;
    height: 5px;
    border-radius: 2px;
  }
- 
+
  .seek-bar .thumb {
    position: absolute;
    height: 10px;
@@ -357,27 +368,27 @@ td.song-number {
    cursor: pointer;
    transition: all 100ms ease-in-out;
  }
- 
+
  .seek-bar:hover .thumb {
    width: 20px;
    height: 20px;
    margin-top: -10px;
    margin-left: -10px;
  }
- 
+
  .player-bar .queue-toggle {
    display: inline-block;
    margin-left: 75px;
  }
- 
+
  .player-bar .queue-toggle i {
    font-size: 20px;
  }
- 
+
  .player-bar .volume {
    display: inline-block;
  }
- 
+
  .player-bar .volume i {
    width: 40px;
    font-size: 20px;
@@ -389,3 +400,4 @@ td.song-number {
    width: 100px;
    vertical-align: middle;
  }
+ */
