@@ -1,7 +1,9 @@
+$bg-color: #2F1D57;
+
 .hero-content {
-    background: #2F1D57;
+    background: $bg-color;
     padding: 100px 0;
-    background-color: #2F1D57;
+    background-color: $bg-color;
 
     h1 {
         font-size: 70px;
