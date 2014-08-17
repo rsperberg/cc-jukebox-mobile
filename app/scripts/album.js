@@ -63,7 +63,7 @@ var albumMusic18 = {
 var currentlyPlayingSong = null;
 var songNumberCell, currentlyPlayingCell;
 
-var createSongRow = function(songNumber, songName, songLength) {
+var createSongRow = function createSongRowR(songNumber, songName, songLength) {
    var template =
       '<tr>'
    + '  <td class="song-number col-md-1" data-song-number="' + songNumber + '">' + songNumber + '</td>'
@@ -77,7 +77,7 @@ var createSongRow = function(songNumber, songName, songLength) {
    var $row = $(template);
 
    // Change from a song number to play button when the song isn't playing and we hover over the row.
-   var onHover = function(event) {
+   var onHover = function onHoverR(event) {
       songNumberCell = $(this).find('.song-number');
       songNumber = songNumberCell.data('song-number');
       if (songNumber !== currentlyPlayingSong) {
@@ -85,7 +85,7 @@ var createSongRow = function(songNumber, songName, songLength) {
       }
    };
    // Change from a play button to song number when the song isn't playing and we hover off the row.
-   var offHover = function(event) {
+   var offHover = function offHoverR(event) {
       songNumberCell = $(this).find('.song-number');
       songNumber = songNumberCell.data('song-number');
       if (songNumber !== currentlyPlayingSong) {
@@ -94,7 +94,7 @@ var createSongRow = function(songNumber, songName, songLength) {
    };
 
    // Toggle the play, pause, and song number based on the button clicked.
-   var clickHandler = function(event) {
+   var clickHandler = function clickHandlerR(event) {
       songNumber = $(this).data('song-number');
       if (currentlyPlayingSong !== null) {
          // Revert to song number for currently playing song because user started playing new song.
@@ -117,7 +117,7 @@ var createSongRow = function(songNumber, songName, songLength) {
    return $row;
 };  // createSongRow
 
-var changeAlbumView = function(album) {
+var changeAlbumView = function changeAlbumViewR(album) {
    // update the album title
    var $albumTitle = $('.album-title');
    $albumTitle.text(album.name);
@@ -141,20 +141,7 @@ var changeAlbumView = function(album) {
    }
 };
 
-// This 'if' condition is used to prevent the jQuery modifications
-// from happening on non-Album view pages.
-//  - Use a regex to validate that the url has "/album" in its path.
-if (document.URL.match(/\/album.html/)) {
-// Wait until the HTML is fully processed.
-$(document).ready(function() {
-   //   console.log('album.js');
-   var theAlbum = albumDouble;
-   changeAlbumView(theAlbum);
-   setupSeekBars();
-});
-}
-
-var updateSeekPercentage = function($seekBar, event) {
+var updateSeekPercentage = function updateSeekPercentageR($seekBar, event) {
    var barWidth = $seekBar.width();
    var offsetX = event.pageX - $seekBar.offset().left;  // get mouse x offset here
    // console.log(offsetX);
@@ -167,25 +154,38 @@ var updateSeekPercentage = function($seekBar, event) {
    $seekBar.find('.thumb').css({left: percentageString});
 };
 
-var setupSeekBars = function() {
+var setupSeekBars = function setupSeekBarsR() {
 
    var $seekBars = $('.player-bar .seek-bar');
    $seekBars.click(function(event) {
       updateSeekPercentage($(this), event);
    });
 
-   $seekBars.find('.thumb').mousedown(function(event) {
+   $seekBars.find('.thumb').mousedown(function seekBarsFindR(event) {
       var $seekBar = $(this).parent();
       $seekBar.addClass('no-animate');
-      $(document).bind('mousemove.thumb', function(event) {
+      $(document).bind('mousemove.thumb', function mousemoveThumbBindR(event) {
          updateSeekPercentage($seekBar, event);
       });
 
       // cleanup
-      $(document).bind('mouseup.thumb', function() {
+      $(document).bind('mouseup.thumb', function cleanupR() {
          $seekBar.removeClass('no-animate');
          $(document).unbind('mousemove.thumb');
          $(document).unbind('mouseup.thumb');
       });
    });
 };
+
+// This 'if' condition is used to prevent the jQuery modifications
+// from happening on non-Album view pages.
+//  - Use a regex to validate that the url has "/album" in its path.
+if (document.URL.match(/\/album.html/)) {
+// Wait until the HTML is fully processed.
+$(document).ready(function documentReadR() {
+   //   console.log('album.js');
+   var theAlbum = albumDouble;
+   changeAlbumView(theAlbum);
+   setupSeekBars();
+});
+}
