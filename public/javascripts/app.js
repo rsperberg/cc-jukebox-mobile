@@ -104,7 +104,7 @@ var albumDouble = {
       {name: 'Double Sextet III. Fast', length: '6:56'},
       {name: '2x5 I. Fast', length: '10:12'},
       {name: '2x5 II. Slow', length: '3:12'},
-      {name: '2x5 III. Fast', length: '7:08'},
+      {name: '2x5 III. Fast', length: '7:08'}
    ]
 };
 // Another Example Album
@@ -149,10 +149,12 @@ var albumMusic18 = {
       {name: 'Music for 18 Musicians: Section IX', length: '5:23'},
       {name: 'Music for 18 Musicians: Section X', length: '1:50'},
       {name: 'Music for 18 Musicians: Section XI', length: '5:44'},
-      {name: 'Music for 18 Musicians: Pulses', length: '6:10'}   ]
+      {name: 'Music for 18 Musicians: Pulses', length: '6:10'}
+   ]
 };
 
 var currentlyPlayingSong = null;
+var songNumberCell, currentlyPlayingCell;
 
 var createSongRow = function(songNumber, songName, songLength) {
    var template =
@@ -206,7 +208,7 @@ var createSongRow = function(songNumber, songName, songLength) {
    $row.find('.song-number').click(clickHandler);
    $row.hover(onHover, offHover);
    return $row;
-};
+};  // createSongRow
 
 var changeAlbumView = function(album) {
    // update the album title
@@ -240,10 +242,46 @@ if (document.URL.match(/\/album.html/)) {
 $(document).ready(function() {
    //   console.log('album.js');
    var theAlbum = albumDouble;
-changeAlbumView(theAlbum);
-
+   changeAlbumView(theAlbum);
+   setupSeekBars();
 });
 }
+
+var updateSeekPercentage = function($seekBar, event) {
+   var barWidth = $seekBar.width();
+   var offsetX = event.pageX - $seekBar.offset().left;  // get mouse x offset here
+   // console.log(offsetX);
+   var offsetXPercent = (offsetX  / $seekBar.width()) * 100;
+   offsetXPercent = Math.max(0, offsetXPercent);
+   offsetXPercent = Math.min(100, offsetXPercent);
+
+   var percentageString = offsetXPercent + '%';
+   $seekBar.find('.fill').width(percentageString);
+   $seekBar.find('.thumb').css({left: percentageString});
+};
+
+var setupSeekBars = function() {
+
+   var $seekBars = $('.player-bar .seek-bar');
+   $seekBars.click(function(event) {
+      updateSeekPercentage($(this), event);
+   });
+
+   $seekBars.find('.thumb').mousedown(function(event) {
+      var $seekBar = $(this).parent();
+      $seekBar.addClass('no-animate');
+      $(document).bind('mousemove.thumb', function(event) {
+         updateSeekPercentage($seekBar, event);
+      });
+
+      // cleanup
+      $(document).bind('mouseup.thumb', function() {
+         $seekBar.removeClass('no-animate');
+         $(document).unbind('mousemove.thumb');
+         $(document).unbind('mouseup.thumb');
+      });
+   });
+};
 
 });
 
