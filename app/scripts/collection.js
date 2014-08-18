@@ -1,4 +1,5 @@
-var buildAlbumThumbnail = function() {
+function buildAlbumThumbnail() {
+   'use strict';
     var template =
         '<div class="collection-album-container col-md-2">'
       + '  <div class="collection-album-image-container">'
@@ -19,9 +20,10 @@ var buildAlbumThumbnail = function() {
       + '</div>';
 
    return $(template);
- };
+ }
 
-var buildAlbumOverlay = function(albumURL) {
+function buildAlbumOverlay(albumURL) {
+   'use strict';
    var template =
          '<div class="collection-album-image-overlay">'
       + '  <div class="collection-overlay-content">'
@@ -35,9 +37,10 @@ var buildAlbumOverlay = function(albumURL) {
       + '  </div>'
       + '</div>';
       return $(template);
-};
+}
 
-var updateCollectionView = function() {
+function updateCollectionView() {
+   'use strict';
    var $collection = $('.collection-container .row');
    $collection.empty();
 
@@ -46,16 +49,16 @@ var updateCollectionView = function() {
       $collection.append($newThumbnail);
    }
 
-   var onHover = function(event) {
+   function onHover(event) {
      $(this).append(buildAlbumOverlay('/album.html'));
-   };
+   }
 
-   var offHover = function(event) {
+   function offHover(event) {
       $(this).find('.collection-album-image-overlay').remove();
-  };
+  }
 
    $collection.find('.collection-album-image-container').hover(onHover, offHover);
- };
+ }
 
 
 if (document.URL.match(/\/collection.html/)) {

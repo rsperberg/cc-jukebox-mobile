@@ -63,7 +63,8 @@ var albumMusic18 = {
 var currentlyPlayingSong = null;
 var songNumberCell, currentlyPlayingCell;
 
-var createSongRow = function createSongRowR(songNumber, songName, songLength) {
+function createSongRow(songNumber, songName, songLength) {
+'use strict';
    var template =
       '<tr>'
    + '  <td class="song-number col-md-1" data-song-number="' + songNumber + '">' + songNumber + '</td>'
@@ -77,24 +78,24 @@ var createSongRow = function createSongRowR(songNumber, songName, songLength) {
    var $row = $(template);
 
    // Change from a song number to play button when the song isn't playing and we hover over the row.
-   var onHover = function onHoverR(event) {
+   function onHover(event) {
       songNumberCell = $(this).find('.song-number');
       songNumber = songNumberCell.data('song-number');
       if (songNumber !== currentlyPlayingSong) {
          songNumberCell.html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
       }
-   };
+   }
    // Change from a play button to song number when the song isn't playing and we hover off the row.
-   var offHover = function offHoverR(event) {
+   function offHover(event) {
       songNumberCell = $(this).find('.song-number');
       songNumber = songNumberCell.data('song-number');
       if (songNumber !== currentlyPlayingSong) {
          songNumberCell.html(songNumber);
       }
-   };
+   }
 
    // Toggle the play, pause, and song number based on the button clicked.
-   var clickHandler = function clickHandlerR(event) {
+   function clickHandler(event) {
       songNumber = $(this).data('song-number');
       if (currentlyPlayingSong !== null) {
          // Revert to song number for currently playing song because user started playing new song.
@@ -110,14 +111,15 @@ var createSongRow = function createSongRowR(songNumber, songName, songLength) {
          $(this).html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
          currentlyPlayingSong = null;
       }
-   };
+   }
 
    $row.find('.song-number').click(clickHandler);
    $row.hover(onHover, offHover);
    return $row;
-};  // createSongRow
+}  // createSongRow
 
-var changeAlbumView = function changeAlbumViewR(album) {
+function changeAlbumView(album) {
+'use strict';
    // update the album title
    var $albumTitle = $('.album-title');
    $albumTitle.text(album.name);
@@ -139,9 +141,10 @@ var changeAlbumView = function changeAlbumViewR(album) {
       var $newRow = createSongRow(i + 1, songData.name, songData.length);
       $songList.append($newRow);
    }
-};
+}
 
-var updateSeekPercentage = function updateSeekPercentageR($seekBar, event) {
+function updateSeekPercentage($seekBar, event) {
+'use strict';
    var barWidth = $seekBar.width();
    var offsetX = event.pageX - $seekBar.offset().left;  // get mouse x offset here
    // console.log(offsetX);
@@ -152,38 +155,53 @@ var updateSeekPercentage = function updateSeekPercentageR($seekBar, event) {
    var percentageString = offsetXPercent + '%';
    $seekBar.find('.fill').width(percentageString);
    $seekBar.find('.thumb').css({left: percentageString});
-};
+}
 
-var setupSeekBars = function setupSeekBarsR() {
-
+   function setupSeekBars() {
+   'use strict';
    var $seekBars = $('.player-bar .seek-bar');
    $seekBars.click(function(event) {
       updateSeekPercentage($(this), event);
    });
 
-   $seekBars.find('.thumb').mousedown(function seekBarsFindR(event) {
+   $seekBars.find('.thumb').mousedown(function thumbMouseDown(event) {
       var $seekBar = $(this).parent();
       $seekBar.addClass('no-animate');
-      $(document).bind('mousemove.thumb', function mousemoveThumbBindR(event) {
+      $(document).bind('mousemove.thumb', function mousemoveThumbBind(event) {
+//      $('.player-bar').bind('mousemove.thumb', function mousemoveThumbBind(event) {
+//      $(document).bind('mousemove', function mousemoveThumbBind(event) {
          updateSeekPercentage($seekBar, event);
       });
 
       // cleanup
-      $(document).bind('mouseup.thumb', function cleanupR() {
+       $(document).bind('mouseup.thumb', function cleanupR() {
          $seekBar.removeClass('no-animate');
          $(document).unbind('mousemove.thumb');
          $(document).unbind('mouseup.thumb');
-      });
+//     $('.player-bar').bind('mouseup.thumb', function cleanupR() {
+//         $seekBar.removeClass('no-animate');
+//         $('.player-bar').unbind('mousemove.thumb');
+ //        $('.player-bar').unbind('mouseup.thumb');
+//      $(document).bind('mouseup', function cleanupR() {
+//         $seekBar.removeClass('no-animate');
+//         $(document).unbind('mousemove');
+//         $(document).unbind('mouseup');
+     });
    });
-};
+}
 
 // This 'if' condition is used to prevent the jQuery modifications
 // from happening on non-Album view pages.
 //  - Use a regex to validate that the url has "/album" in its path.
 if (document.URL.match(/\/album.html/)) {
 // Wait until the HTML is fully processed.
-$(document).ready(function documentReadR() {
+$(document).ready(function documentReadyR() {
    //   console.log('album.js');
+   $( '.player-bar' ).bind( 'click', function mouseWhere( event ) {
+    alert( 'The mouse cursor is at (' +
+      event.pageX + ', ' + event.pageY +
+      ')' );
+  });
    var theAlbum = albumDouble;
    changeAlbumView(theAlbum);
    setupSeekBars();

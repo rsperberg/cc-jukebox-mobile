@@ -156,7 +156,8 @@ var albumMusic18 = {
 var currentlyPlayingSong = null;
 var songNumberCell, currentlyPlayingCell;
 
-var createSongRow = function(songNumber, songName, songLength) {
+function createSongRow(songNumber, songName, songLength) {
+'use strict';
    var template =
       '<tr>'
    + '  <td class="song-number col-md-1" data-song-number="' + songNumber + '">' + songNumber + '</td>'
@@ -170,24 +171,24 @@ var createSongRow = function(songNumber, songName, songLength) {
    var $row = $(template);
 
    // Change from a song number to play button when the song isn't playing and we hover over the row.
-   var onHover = function(event) {
+   function onHover(event) {
       songNumberCell = $(this).find('.song-number');
       songNumber = songNumberCell.data('song-number');
       if (songNumber !== currentlyPlayingSong) {
          songNumberCell.html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
       }
-   };
+   }
    // Change from a play button to song number when the song isn't playing and we hover off the row.
-   var offHover = function(event) {
+   function offHover(event) {
       songNumberCell = $(this).find('.song-number');
       songNumber = songNumberCell.data('song-number');
       if (songNumber !== currentlyPlayingSong) {
          songNumberCell.html(songNumber);
       }
-   };
+   }
 
    // Toggle the play, pause, and song number based on the button clicked.
-   var clickHandler = function(event) {
+   function clickHandler(event) {
       songNumber = $(this).data('song-number');
       if (currentlyPlayingSong !== null) {
          // Revert to song number for currently playing song because user started playing new song.
@@ -203,14 +204,15 @@ var createSongRow = function(songNumber, songName, songLength) {
          $(this).html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
          currentlyPlayingSong = null;
       }
-   };
+   }
 
    $row.find('.song-number').click(clickHandler);
    $row.hover(onHover, offHover);
    return $row;
-};  // createSongRow
+}  // createSongRow
 
-var changeAlbumView = function(album) {
+function changeAlbumView(album) {
+'use strict';
    // update the album title
    var $albumTitle = $('.album-title');
    $albumTitle.text(album.name);
@@ -232,22 +234,10 @@ var changeAlbumView = function(album) {
       var $newRow = createSongRow(i + 1, songData.name, songData.length);
       $songList.append($newRow);
    }
-};
-
-// This 'if' condition is used to prevent the jQuery modifications
-// from happening on non-Album view pages.
-//  - Use a regex to validate that the url has "/album" in its path.
-if (document.URL.match(/\/album.html/)) {
-// Wait until the HTML is fully processed.
-$(document).ready(function() {
-   //   console.log('album.js');
-   var theAlbum = albumDouble;
-   changeAlbumView(theAlbum);
-   setupSeekBars();
-});
 }
 
-var updateSeekPercentage = function($seekBar, event) {
+function updateSeekPercentage($seekBar, event) {
+'use strict';
    var barWidth = $seekBar.width();
    var offsetX = event.pageX - $seekBar.offset().left;  // get mouse x offset here
    // console.log(offsetX);
@@ -258,30 +248,58 @@ var updateSeekPercentage = function($seekBar, event) {
    var percentageString = offsetXPercent + '%';
    $seekBar.find('.fill').width(percentageString);
    $seekBar.find('.thumb').css({left: percentageString});
-};
+}
 
-var setupSeekBars = function() {
-
+   function setupSeekBars() {
+   'use strict';
    var $seekBars = $('.player-bar .seek-bar');
    $seekBars.click(function(event) {
       updateSeekPercentage($(this), event);
    });
 
-   $seekBars.find('.thumb').mousedown(function(event) {
+   $seekBars.find('.thumb').mousedown(function thumbMouseDown(event) {
       var $seekBar = $(this).parent();
       $seekBar.addClass('no-animate');
-      $(document).bind('mousemove.thumb', function(event) {
+      $(document).bind('mousemove.thumb', function mousemoveThumbBind(event) {
+//      $('.player-bar').bind('mousemove.thumb', function mousemoveThumbBind(event) {
+//      $(document).bind('mousemove', function mousemoveThumbBind(event) {
          updateSeekPercentage($seekBar, event);
       });
 
       // cleanup
-      $(document).bind('mouseup.thumb', function() {
+       $(document).bind('mouseup.thumb', function cleanupR() {
          $seekBar.removeClass('no-animate');
          $(document).unbind('mousemove.thumb');
          $(document).unbind('mouseup.thumb');
-      });
+//     $('.player-bar').bind('mouseup.thumb', function cleanupR() {
+//         $seekBar.removeClass('no-animate');
+//         $('.player-bar').unbind('mousemove.thumb');
+ //        $('.player-bar').unbind('mouseup.thumb');
+//      $(document).bind('mouseup', function cleanupR() {
+//         $seekBar.removeClass('no-animate');
+//         $(document).unbind('mousemove');
+//         $(document).unbind('mouseup');
+     });
    });
-};
+}
+
+// This 'if' condition is used to prevent the jQuery modifications
+// from happening on non-Album view pages.
+//  - Use a regex to validate that the url has "/album" in its path.
+if (document.URL.match(/\/album.html/)) {
+// Wait until the HTML is fully processed.
+$(document).ready(function documentReadyR() {
+   //   console.log('album.js');
+   $( '.player-bar' ).bind( 'click', function mouseWhere( event ) {
+    alert( 'The mouse cursor is at (' +
+      event.pageX + ', ' + event.pageY +
+      ')' );
+  });
+   var theAlbum = albumDouble;
+   changeAlbumView(theAlbum);
+   setupSeekBars();
+});
+}
 
 });
 
@@ -293,7 +311,8 @@ require('./album');
 });
 
 ;require.register("scripts/collection", function(exports, require, module) {
-var buildAlbumThumbnail = function() {
+function buildAlbumThumbnail() {
+   'use strict';
     var template =
         '<div class="collection-album-container col-md-2">'
       + '  <div class="collection-album-image-container">'
@@ -314,9 +333,10 @@ var buildAlbumThumbnail = function() {
       + '</div>';
 
    return $(template);
- };
+ }
 
-var buildAlbumOverlay = function(albumURL) {
+function buildAlbumOverlay(albumURL) {
+   'use strict';
    var template =
          '<div class="collection-album-image-overlay">'
       + '  <div class="collection-overlay-content">'
@@ -330,9 +350,10 @@ var buildAlbumOverlay = function(albumURL) {
       + '  </div>'
       + '</div>';
       return $(template);
-};
+}
 
-var updateCollectionView = function() {
+function updateCollectionView() {
+   'use strict';
    var $collection = $('.collection-container .row');
    $collection.empty();
 
@@ -341,16 +362,16 @@ var updateCollectionView = function() {
       $collection.append($newThumbnail);
    }
 
-   var onHover = function(event) {
+   function onHover(event) {
      $(this).append(buildAlbumOverlay('/album.html'));
-   };
+   }
 
-   var offHover = function(event) {
+   function offHover(event) {
       $(this).find('.collection-album-image-overlay').remove();
-  };
+  }
 
    $collection.find('.collection-album-image-container').hover(onHover, offHover);
- };
+ }
 
 
 if (document.URL.match(/\/collection.html/)) {
@@ -365,35 +386,35 @@ if (document.URL.match(/\/collection.html/)) {
 
 ;require.register("scripts/landing", function(exports, require, module) {
 $(document).ready(function() {
-   $('.hero-content h3').click(function(){
+   $('.hero-content h3').click(function h3Click() {
       var subText = $(this).text();
       $(this).text(subText + '!');
    });
 
    /* Added for checkpoint 26  */
-$('.hero-content h3').hover(function(){
+$('.hero-content h3').hover(function h3Hover() {
       $(this).css('color','red');
    });
 
-   var onHoverAction = function(event) {
-     console.log('Hover action triggered.');
+   function onHoverAction(event) {
+//     console.log('Hover action triggered.');
      $(this).animate({'margin-top': '20px'});
-   };
+   }
 
-   var offHoverAction = function(event) {
-     console.log('Off-hover action triggered.');
+   function offHoverAction(event) {
+//     console.log('Off-hover action triggered.');
      $(this).animate({'margin-top': '0px'});
-   };
+   }
 
 $('.selling-points .point').hover(onHoverAction, offHoverAction);
 /* Added for checkpoint 26  */
-$('.selling-points .point h5').click(function() {
-  console.log('Clicking.');
+$('.selling-points .point h5').click(function h5Click() {
+//  console.log('Clicking.');
   $(this).css('font-size', '24pt');
 });
 
 /* Added for checkpoint 26  */
-$('.logo ').click(function() {
+$('.logo ').click(function logoClick() {
   $(this).fadeOut(2000);
 });
 });
