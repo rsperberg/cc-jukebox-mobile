@@ -3,7 +3,12 @@
       "$": true,
       "$()": true,
       "document": true,
-      "window": true
+      "window": true,
+      "angular": true,
+      "browser": true,
+      "node": true,
+      "console": false,
+      "alert": false
     },
    "rules": {
       "quotes": [2, "single", "avoid-escape"],
