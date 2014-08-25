@@ -36,6 +36,12 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
       controller: 'Collection.controller',
       templateUrl: '/templates/collection.html'
    });
+
+   $stateProvider.state('album', {
+      url: '/album',
+      controller: 'Album.controller',
+      templateUrl: '/templates/album.html'
+   });
  }]);
 
  // This is a cleaner way to call the controller than crowding it on the module definition.
@@ -74,4 +80,35 @@ blocJams.controller('Collection.controller', ['$scope', function($scope) {
    for (var i = 0; i < 33; i++) {
       $scope.albums.push(angular.copy(albumDouble));
    }
+}]);
+
+blocJams.controller('Album.controller', ['$scope', function($scope) {
+   $scope.album = angular.copy(albumDouble);
+
+   var hoveredSong = null;
+   var playingSong = null;
+
+   $scope.onHoverSong = function(song) {
+      hoveredSong = song;
+   };
+   $scope.offHoverSong = function(song) {
+      hoveredSong = null;
+   };
+
+   $scope.getSongState = function(song) {
+      if (song === playingSong) {
+         return 'playing';
+      } else if (song === hoveredSong) {
+         return 'hovered';
+      }
+      return 'default';
+   };
+
+   $scope.playSong = function(song) {
+      playingSong = song;
+    };
+
+    $scope.pauseSong = function(song) {
+      playingSong = null;
+    };
 }]);
