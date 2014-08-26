@@ -311,12 +311,12 @@ var albumDouble = {
    year: '2010',
    albumArtUrl: '/images/double_sextet_600.jpg',
    songs: [
-      {name: 'Double Sextet I. Fast', length: '8:39'},
-      {name: 'Double Sextet II. Slow', length: '6:43'},
-      {name: 'Double Sextet III. Fast', length: '6:56'},
-      {name: '2x5 I. Fast', length: '10:12'},
-      {name: '2x5 II. Slow', length: '3:12'},
-      {name: '2x5 III. Fast', length: '7:08'}
+        {name: 'Double Sextet I. Fast', length: '8:39', audioUrl: '/music/placeholders/blue'},
+        {name: 'Double Sextet II. Slow', length: '6:43', audioUrl: '/music/placeholders/green'},
+        {name: 'Double Sextet III. Fast', length: '6:56', audioUrl: '/music/placeholders/red'},
+        {name: '2x5 I. Fast', length: '10:12', audioUrl: '/music/placeholders/pink'},
+        {name: '2x5 II. Slow', length: '3:12', audioUrl: '/music/placeholders/magenta'},
+        {name: '2x5 III. Fast', length: '7:08', audioUrl: '/music/placeholders/magenta'}
    ]
 };
 
@@ -381,10 +381,15 @@ $scope.titleTextClicked = shuffle(albumsArray);
 
 }]);
 
-blocJams.controller('Collection.controller', ['$scope', function($scope) {
+// blocJams.controller('Collection.controller', ['$scope', function($scope) {
+blocJams.controller('Collection.controller', ['$scope','SongPlayer', function($scope, SongPlayer) {
    $scope.albums = [];
    for (var i = 0; i < 33; i++) {
       $scope.albums.push(angular.copy(albumDouble));
+   }
+
+   $scope.playAlbum = function(album) {
+    SongPlayer.setSong(album, album.songs[0]); // Targets first song in the array.
    }
 }]);
 
@@ -413,7 +418,7 @@ blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger'
    $scope.playSong = function(song) {
  //     playingSong = song;
         SongPlayer.setSong($scope.album, song);
-        SongPlayer.play();
+//        SongPlayer.play();  // info in chkpt 42 ambiguous about this change
     };
 
     $scope.pauseSong = function(song) {
@@ -428,6 +433,7 @@ blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLog
 }]);
 
 blocJams.service('SongPlayer', function() {
+    var currentSoundFile = null;
     var trackIndex = function(album, song) {
         return album.songs.indexOf(song);
     };
@@ -438,9 +444,11 @@ blocJams.service('SongPlayer', function() {
 
         play: function() {
             this.playing = true;
+            currentSoundFile.play();
         },
         pause: function() {
             this.playing = false;
+            currentSoundFile.pause();
         },
         next: function() {
             var currentTrackIndex = trackIndex(this.currentAlbum, this.currentSong);
@@ -448,7 +456,9 @@ blocJams.service('SongPlayer', function() {
             if (currentTrackIndex >= this.currentAlbum.songs.length) {
                 currentTrackIndex = 0;
              }
-               this.currentSong = this.currentAlbum.songs[currentTrackIndex];
+             var song = this.currentAlbum.songs[currentTrackIndex];
+             this.setSong(this.currentAlbum, song);
+ //              this.currentSong = this.currentAlbum.songs[currentTrackIndex];
         },
         previous: function() {
             var currentTrackIndex = trackIndex(this.currentAlbum, this.currentSong);
@@ -456,12 +466,23 @@ blocJams.service('SongPlayer', function() {
             if (currentTrackIndex < 0) {
                 currentTrackIndex = this.currentAlbum.songs.length - 1;
             }
-               this.currentSong = this.currentAlbum.songs[currentTrackIndex];
+            var song = this.currentAlbum.songs[currentTrackIndex];
+            this.setSong(this.currentAlbum, song);
+//               this.currentSong = this.currentAlbum.songs[currentTrackIndex];
         },
         setSong: function(album, song) {
+            if (currentSoundFile) {
+                currentSoundFile.stop();
+            }
             this.currentAlbum = album;
             this.currentSong = song;
-        }
+            currentSoundFile = new buzz.sound(song.audioUrl, {
+                formats: [ "mp3" ],
+                preload: true
+            });
+
+            this.play();
+        }  //setSong
     };
 });
 
