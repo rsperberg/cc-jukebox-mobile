@@ -82,9 +82,9 @@ blocJams.controller('Collection.controller', ['$scope', function($scope) {
    }
 }]);
 
-blocJams.controller('Album.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
+blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
    $scope.album = angular.copy(albumDouble);
-
+   ConsoleLogger.logIt();
    var hoveredSong = null;
    var playingSong = null;
 
@@ -114,10 +114,11 @@ blocJams.controller('Album.controller', ['$scope', 'SongPlayer', function($scope
 //      playingSong = null;
       SongPlayer.pause();
     };
-}]);
+}]);  // Album.controller
 
-blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
-  $scope.songPlayer = SongPlayer;
+blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
+    $scope.songPlayer = SongPlayer;
+    ConsoleLogger.logIt();
 }]);
 
 blocJams.service('SongPlayer', function() {
@@ -137,4 +138,12 @@ blocJams.service('SongPlayer', function() {
             this.currentSong = song;
         }
     };
+});
+
+blocJams.service('ConsoleLogger', function() {
+    return {
+        logIt: function() {
+            console.log('Hello, World!');
+        }
+};
 });
