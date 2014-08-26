@@ -390,7 +390,7 @@ blocJams.controller('Collection.controller', ['$scope', function($scope) {
 
 blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
    $scope.album = angular.copy(albumDouble);
-   ConsoleLogger.logIt();
+//   ConsoleLogger.logIt();
    var hoveredSong = null;
    var playingSong = null;
 
@@ -424,7 +424,7 @@ blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger'
 
 blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
     $scope.songPlayer = SongPlayer;
-    ConsoleLogger.logIt();
+//    ConsoleLogger.logIt();
 }]);
 
 blocJams.service('SongPlayer', function() {
