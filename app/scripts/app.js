@@ -47,17 +47,17 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
  // This is a cleaner way to call the controller than crowding it on the module definition.
  blocJams.controller('Landing.controller', ['$scope', function($scope) {
 
-   $scope.titleText = 'Bloc Jams';
-   $scope.subText = 'Turn the music up!';
-   $scope.subTextClicked = function() {
-     $scope.subText += '!';
-   };
+    $scope.titleText = 'Bloc Jams';
+    $scope.subText = 'Turn the music up!';
+    $scope.subTextClicked = function() {
+        $scope.subText += '!';
+    };
 
-   function shuffle(o) { //v1.0
-    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) {
-    return o;
- }
-}
+    function shuffle(o) { //v1.0
+        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) {
+        return o;
+        }
+    }
 
        var albumsArray = [
         '/images/album-placeholders/album-1.jpg',
@@ -77,39 +77,39 @@ $scope.titleTextClicked = shuffle(albumsArray);
 
 // blocJams.controller('Collection.controller', ['$scope', function($scope) {
 blocJams.controller('Collection.controller', ['$scope','SongPlayer', function($scope, SongPlayer) {
-   $scope.albums = [];
-   for (var i = 0; i < 33; i++) {
-      $scope.albums.push(angular.copy(albumDouble));
-   }
+    $scope.albums = [];
+    for (var i = 0; i < 33; i++) {
+        $scope.albums.push(angular.copy(albumDouble));
+    }
 
-   $scope.playAlbum = function(album) {
-    SongPlayer.setSong(album, album.songs[0]); // Targets first song in the array.
-   };
+    $scope.playAlbum = function(album) {
+        SongPlayer.setSong(album, album.songs[0]); // Targets first song in the array.
+    };
 }]);
 
 blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
-   $scope.album = angular.copy(albumDouble);
+    $scope.album = angular.copy(albumDouble);
 //   ConsoleLogger.logIt();
-   var hoveredSong = null;
-   var playingSong = null;
+    var hoveredSong = null;
+    var playingSong = null;
 
-   $scope.onHoverSong = function(song) {
-      hoveredSong = song;
-   };
-   $scope.offHoverSong = function(song) {
-      hoveredSong = null;
-   };
+    $scope.onHoverSong = function(song) {
+        hoveredSong = song;
+    };
+    $scope.offHoverSong = function(song) {
+        hoveredSong = null;
+    };
 
-   $scope.getSongState = function(song) {
-      if (song === SongPlayer.currentSong && SongPlayer.playing) {
-         return 'playing';
-      } else if (song === hoveredSong) {
-         return 'hovered';
-      }
-      return 'default';
-   };
+    $scope.getSongState = function(song) {
+        if (song === SongPlayer.currentSong && SongPlayer.playing) {
+            return 'playing';
+        } else if (song === hoveredSong) {
+            return 'hovered';
+        }
+        return 'default';
+    };
 
-   $scope.playSong = function(song) {
+    $scope.playSong = function(song) {
  //     playingSong = song;
         SongPlayer.setSong($scope.album, song);
 //        SongPlayer.play();  // info in chkpt 42 ambiguous about this change
@@ -234,7 +234,9 @@ blocJams.directive('slider', ['$document', function() {
         templateUrl: '/templates/directives/slider.html',
         replace: true,
         restrict: 'E',
-        scope: {},                 // Creates a scope that exists only in this directive.
+        scope: {
+            onChange: '&'
+        },                 // Creates a scope that exists only in this directive.
         link: function(scope, element, attributes) {
             // These values represent the progress into the song/volume bar, and its max value.
             // For now, we're supplying arbitrary initial and max values.
@@ -253,6 +255,7 @@ blocJams.directive('slider', ['$document', function() {
             scope.onClickSlider = function(event) {
                 var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
                 scope.value = percent * scope.max;
+                notifyCallback(scope.value);
             };
 
             // percentString()
@@ -277,6 +280,7 @@ blocJams.directive('slider', ['$document', function() {
                     var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
                     scope.$apply(function() {
                         scope.value = percent * scope.max;
+                        notifyCallback(scope.value);
                     });
                 });
 
@@ -284,28 +288,16 @@ blocJams.directive('slider', ['$document', function() {
                 $document.bind('mouseup.thumb', function() {
                     $document.unbind('mousemove.thumb');
                     $document.unbind('mouseup.thumb');
-                })
+                });
             };
 
-/*            $seekBar.click(function(event) {
-                updateSeekPercentage($seekBar, event);
-            });
+            // notifyCallback()
+            var notifyCallback = function notifyCallback(newValue) {
+                if (typeof scope.onChange === 'function') {
+                    scope.onChange({value: newValue});
+                }
+            }; //- notifyCallback()
 
-            $seekBar.find('.thumb').mousedown(function(event) {
-                $seekBar.addClass('no-animate');
-
-                $(document).bind('mousemove.thumb', function(event) {
-                    updateSeekPercentage($seekBar, event);
-                });
-
-                // cleanup
-                $(document).bind('mouseup.thumb', function() {
-                    $seekBar.removeClass('no-animate');
-                    $(document).unbind('mousemove.thumb');
-                    $(document).unbind('mouseup.thumb');
-                });
-
-            })  //$seekBar.find        */
         }  // link
     };  // return
 }]);  //   blocJams.directive('slider'...
