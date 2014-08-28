@@ -138,7 +138,7 @@ blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLog
 //blocJams.controller('PlayerBar.controller'
 
 //
-blocJams.service('SongPlayer', ['$rootScope', function() {
+blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
     var currentSoundFile = null;
     var trackIndex = function(album, song) {
         return album.songs.indexOf(song);
