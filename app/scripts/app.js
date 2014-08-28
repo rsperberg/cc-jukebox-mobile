@@ -180,7 +180,6 @@ blocJams.service('SongPlayer', function() {
     };
 });
 
-/*
 blocJams.service('ConsoleLogger', function() {
     return {
         logIt: function() {
@@ -188,7 +187,6 @@ blocJams.service('ConsoleLogger', function() {
         }
 };
 });
-*/
 
 blocJams.directive('slider', ['$document', function() {
     // Returns a number between 0 and 1 to determine where the mouse event happened along the slider bar.
@@ -224,6 +222,13 @@ blocJams.directive('slider', ['$document', function() {
             scope.max = 100;
             var $seekBar = $(element);
             console.log(attributes);
+
+            attributes.$observe('value', function(newValue) {
+                scope.value = numberFromValue(newValue, 0);
+            });
+            attributes.$observe('max', function(newValue) {
+                scope.max = numberFromValue(newValue, 100) || 100;
+            });
 
             scope.onClickSlider = function(event) {
                 var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
