@@ -84,7 +84,7 @@ blocJams.controller('Collection.controller', ['$scope','SongPlayer', function($s
 
    $scope.playAlbum = function(album) {
     SongPlayer.setSong(album, album.songs[0]); // Targets first song in the array.
-   }
+   };
 }]);
 
 blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
@@ -171,7 +171,7 @@ blocJams.service('SongPlayer', function() {
             this.currentAlbum = album;
             this.currentSong = song;
             currentSoundFile = new buzz.sound(song.audioUrl, {
-                formats: [ "mp3" ],
+                formats: [ 'mp3' ],
                 preload: true
             });
 
@@ -180,6 +180,7 @@ blocJams.service('SongPlayer', function() {
     };
 });
 
+/*
 blocJams.service('ConsoleLogger', function() {
     return {
         logIt: function() {
@@ -187,9 +188,19 @@ blocJams.service('ConsoleLogger', function() {
         }
 };
 });
+*/
 
-blocJams.directive('slider', function() {
-    var updateSeekPercentage = function($seekBar, event) {
+blocJams.directive('slider', ['$document', function() {
+    // Returns a number between 0 and 1 to determine where the mouse event happened along the slider bar.
+    var calculateSliderPercentFromMouseEvent = function($slider, event) {
+        var offsetX =  event.pageX - $slider.offset().left; // Distance from left
+        var sliderWidth = $slider.width(); // Width of slider
+        var offsetXPercent = (offsetX  / sliderWidth);
+        offsetXPercent = Math.max(0, offsetXPercent);
+        offsetXPercent = Math.min(1, offsetXPercent);
+        return offsetXPercent;
+    };
+ /*   var updateSeekPercentage = function($seekBar, event) {
         var barWidth = $seekBar.width();
         var offsetX =  event.pageX - $seekBar.offset().left;
 
@@ -200,15 +211,53 @@ blocJams.directive('slider', function() {
         var percentageString = offsetXPercent + '%';
         $seekBar.find('.fill').width(percentageString);
         $seekBar.find('.thumb').css({left: percentageString});
-    }
+    }   */
     return {
-        templateUrl: '/templates/directives/slider.html',  // To be created shortly
+        templateUrl: '/templates/directives/slider.html',
         replace: true,
         restrict: 'E',
+        scope: {},                 // Creates a scope that exists only in this directive.
         link: function(scope, element, attributes) {
+            // These values represent the progress into the song/volume bar, and its max value.
+            // For now, we're supplying arbitrary initial and max values.
+            scope.value = 0;
+            scope.max = 200;
             var $seekBar = $(element);
 
-            $seekBar.click(function(event) {
+            scope.onClickSlider = function(event) {
+                var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
+                scope.value = percent * scope.max;
+            };
+
+            var percentString = function() {
+                var percent = Number(scope.value) / Number(scope.max)  * 100;
+                return percent + '%';
+            };
+
+            scope.fillStyle = function() {
+                return {width: percentString()};
+            };
+
+            scope.thumbStyle = function() {
+                return {left: percentString()};
+            };
+
+            scope.trackThumb = function() {
+                $document.bind('mousemove.thumb', function(event) {
+                    var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
+                    scope.$apply(function() {
+                        scope.value = percent * scope.max;
+                    });
+                });
+
+                // cleanup
+                $document.bind('mouseup.thumb', function() {
+                    $document.unbind('mousemove.thumb');
+                    $document.unbind('mouseup.thumb');
+                })
+            };
+
+/*            $seekBar.click(function(event) {
                 updateSeekPercentage($seekBar, event);
             });
 
@@ -226,7 +275,7 @@ blocJams.directive('slider', function() {
                     $(document).unbind('mouseup.thumb');
                 });
 
-            })  //$seekBar.find
+            })  //$seekBar.find        */
         }  // link
     };  // return
-});  //   blocJams.directive('slider'...
+}]);  //   blocJams.directive('slider'...

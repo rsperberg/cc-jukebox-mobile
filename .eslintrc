@@ -8,7 +8,8 @@
       "browser": true,
       "node": true,
       "console": false,
-      "alert": false
+      "alert": false,
+      "blocJams": true
     },
    "rules": {
       "quotes": [2, "single", "avoid-escape"],
