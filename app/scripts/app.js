@@ -5,12 +5,12 @@ var albumDouble = {
    year: '2010',
    albumArtUrl: '/images/double_sextet_600.jpg',
    songs: [
-        {name: 'Double Sextet I. Fast', length: '8:39', audioUrl: '/music/placeholders/blue'},
-        {name: 'Double Sextet II. Slow', length: '6:43', audioUrl: '/music/placeholders/green'},
-        {name: 'Double Sextet III. Fast', length: '6:56', audioUrl: '/music/placeholders/red'},
-        {name: '2x5 I. Fast', length: '10:12', audioUrl: '/music/placeholders/pink'},
-        {name: '2x5 II. Slow', length: '3:12', audioUrl: '/music/placeholders/magenta'},
-        {name: '2x5 III. Fast', length: '7:08', audioUrl: '/music/placeholders/magenta'}
+        {name: 'Double Sextet I. Fast', length: 163.38, audioUrl: '/music/placeholders/blue'},
+        {name: 'Double Sextet II. Slow', length: 105.66, audioUrl: '/music/placeholders/green'},
+        {name: 'Double Sextet III. Fast', length: 270.14, audioUrl: '/music/placeholders/red'},
+        {name: '2x5 I. Fast', length: 154.81, audioUrl: '/music/placeholders/pink'},
+        {name: '2x5 II. Slow', length: 375.92, audioUrl: '/music/placeholders/magenta'},
+        {name: '2x5 III. Fast', length: 105.66, audioUrl: '/music/placeholders/green'}
    ]
 };
 
