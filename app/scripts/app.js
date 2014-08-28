@@ -221,8 +221,9 @@ blocJams.directive('slider', ['$document', function() {
             // These values represent the progress into the song/volume bar, and its max value.
             // For now, we're supplying arbitrary initial and max values.
             scope.value = 0;
-            scope.max = 200;
+            scope.max = 100;
             var $seekBar = $(element);
+            console.log(attributes);
 
             scope.onClickSlider = function(event) {
                 var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
