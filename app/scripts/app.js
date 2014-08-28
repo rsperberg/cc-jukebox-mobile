@@ -210,6 +210,19 @@ blocJams.directive('slider', ['$document', function() {
         $seekBar.find('.fill').width(percentageString);
         $seekBar.find('.thumb').css({left: percentageString});
     }   */
+    // numberFromValue()
+    var numberFromValue = function numberFromValue(value, defaultValue) {
+        if (typeof value === 'number') {
+            return value;
+        }
+        if (typeof value === 'undefined') {
+            return defaultValue;
+        }
+        if (typeof value === 'string') {
+            return Number(value);
+        }
+    }; //- numberFromValue()
+
     return {
         templateUrl: '/templates/directives/slider.html',
         replace: true,
