@@ -14,7 +14,7 @@ var albumDouble = {
    ]
 };
 
-blocJams = angular.module('BlocJams', ['ui.router']);
+var blocJams = angular.module('BlocJams', ['ui.router']);
 // angular.module('BlocJams', []).controller('Landing.controller', ['$scope', function($scope) {
 //   console.log('Landing.controller');
 blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
@@ -43,21 +43,23 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
       templateUrl: '/templates/album.html'
    });
  }]);
+// blocJams.config(['$stateProvider', '$locationProvider'
 
+//
  // This is a cleaner way to call the controller than crowding it on the module definition.
- blocJams.controller('Landing.controller', ['$scope', function($scope) {
+blocJams.controller('Landing.controller', ['$scope', function($scope) {
 
     $scope.titleText = 'Bloc Jams';
     $scope.subText = 'Turn the music up!';
     $scope.subTextClicked = function() {
         $scope.subText += '!';
     };
-
-    function shuffle(o) { //v1.0
+    // shuffle()
+    var shuffle = function shuffle(o) {
         for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) {
         return o;
         }
-    }
+    }; //- shuffle()
 
        var albumsArray = [
         '/images/album-placeholders/album-1.jpg',
@@ -74,7 +76,9 @@ $scope.albumURLs = albumsArray;
 $scope.titleTextClicked = shuffle(albumsArray);
 
 }]);
+// blocJams.controller('Landing.controller'
 
+//
 // blocJams.controller('Collection.controller', ['$scope', function($scope) {
 blocJams.controller('Collection.controller', ['$scope','SongPlayer', function($scope, SongPlayer) {
     $scope.albums = [];
@@ -86,12 +90,14 @@ blocJams.controller('Collection.controller', ['$scope','SongPlayer', function($s
         SongPlayer.setSong(album, album.songs[0]); // Targets first song in the array.
     };
 }]);
+// blocJams.controller('Collection.controller'
 
+//
 blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
     $scope.album = angular.copy(albumDouble);
 //   ConsoleLogger.logIt();
     var hoveredSong = null;
-    var playingSong = null;
+//    var playingSong = null;
 
     $scope.onHoverSong = function(song) {
         hoveredSong = song;
@@ -110,23 +116,29 @@ blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger'
     };
 
     $scope.playSong = function(song) {
- //     playingSong = song;
         SongPlayer.setSong($scope.album, song);
 //        SongPlayer.play();  // info in chkpt 42 ambiguous about this change
     };
 
     $scope.pauseSong = function(song) {
-//      playingSong = null;
       SongPlayer.pause();
     };
-}]);  // Album.controller
+}]);
+// blocJams.controller('Album.controller'
 
+//
 blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
     $scope.songPlayer = SongPlayer;
-//    ConsoleLogger.logIt();
+    SongPlayer.onTimeUpdate(function(event, time) {
+        $scope.$apply(function() {
+            $scope.playTime = time;
+        });
+    });
 }]);
+//blocJams.controller('PlayerBar.controller'
 
-blocJams.service('SongPlayer', function() {
+//
+blocJams.service('SongPlayer', ['$rootScope', function() {
     var currentSoundFile = null;
     var trackIndex = function(album, song) {
         return album.songs.indexOf(song);
@@ -152,7 +164,6 @@ blocJams.service('SongPlayer', function() {
              }
              var song = this.currentAlbum.songs[currentTrackIndex];
              this.setSong(this.currentAlbum, song);
- //              this.currentSong = this.currentAlbum.songs[currentTrackIndex];
         },
         previous: function() {
             var currentTrackIndex = trackIndex(this.currentAlbum, this.currentSong);
@@ -162,7 +173,6 @@ blocJams.service('SongPlayer', function() {
             }
             var song = this.currentAlbum.songs[currentTrackIndex];
             this.setSong(this.currentAlbum, song);
-//               this.currentSong = this.currentAlbum.songs[currentTrackIndex];
         },
         seek: function(time) {
             // Checks to make sure that a sound file is playing before seeking
@@ -171,22 +181,32 @@ blocJams.service('SongPlayer', function() {
                 currentSoundFile.setTime(time);
             }
         },
+        onTimeUpdate: function(callback) {
+            return $rootScope.$on('sound:timeupdate', callback);
+        },
         setSong: function(album, song) {
             if (currentSoundFile) {
                 currentSoundFile.stop();
             }
             this.currentAlbum = album;
             this.currentSong = song;
+
             currentSoundFile = new buzz.sound(song.audioUrl, {
                 formats: [ 'mp3' ],
                 preload: true
             });
 
+            currentSoundFile.bind('timeupdate', function(e) {
+                $rootScope.$broadcast('sound:timeupdate', this.getTime());
+            });
+
             this.play();
         }  //setSong
     };
-});
+}]);
+//blocJams.service('SongPlayer')
 
+//
 blocJams.service('ConsoleLogger', function() {
     return {
         logIt: function() {
@@ -194,29 +214,21 @@ blocJams.service('ConsoleLogger', function() {
         }
 };
 });
+//blocJams.service('ConsoleLogger'
 
+//
 blocJams.directive('slider', ['$document', function() {
-    // Returns a number between 0 and 1 to determine where the mouse event happened along the slider bar.
-    var calculateSliderPercentFromMouseEvent = function($slider, event) {
+    // Returns a number between 0 and 1 to determine where the mouse event happened along the slider bar
+    // calculateSliderPercentFromMouseEvent()
+    var calculateSliderPercentFromMouseEvent = function calculateSliderPercentFromMouseEvent($slider, event) {
         var offsetX =  event.pageX - $slider.offset().left; // Distance from left
         var sliderWidth = $slider.width(); // Width of slider
         var offsetXPercent = (offsetX  / sliderWidth);
         offsetXPercent = Math.max(0, offsetXPercent);
         offsetXPercent = Math.min(1, offsetXPercent);
         return offsetXPercent;
-    };
- /*   var updateSeekPercentage = function($seekBar, event) {
-        var barWidth = $seekBar.width();
-        var offsetX =  event.pageX - $seekBar.offset().left;
+    }; //- calculateSliderPercentFromMouseEvent()
 
-        var offsetXPercent = (offsetX  / $seekBar.width()) * 100;
-        offsetXPercent = Math.max(0, offsetXPercent);
-        offsetXPercent = Math.min(100, offsetXPercent);
-
-        var percentageString = offsetXPercent + '%';
-        $seekBar.find('.fill').width(percentageString);
-        $seekBar.find('.thumb').css({left: percentageString});
-    }   */
     // numberFromValue()
     var numberFromValue = function numberFromValue(value, defaultValue) {
         if (typeof value === 'number') {
@@ -243,7 +255,6 @@ blocJams.directive('slider', ['$document', function() {
             scope.value = 0;
             scope.max = 100;
             var $seekBar = $(element);
-            console.log(attributes);
 
             attributes.$observe('value', function(newValue) {
                 scope.value = numberFromValue(newValue, 0);
@@ -298,6 +309,6 @@ blocJams.directive('slider', ['$document', function() {
                 }
             }; //- notifyCallback()
 
-        }  // link
-    };  // return
+        }  // link: function
+    };  // return (within slider)
 }]);  //   blocJams.directive('slider'...
