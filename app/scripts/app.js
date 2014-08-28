@@ -164,6 +164,13 @@ blocJams.service('SongPlayer', function() {
             this.setSong(this.currentAlbum, song);
 //               this.currentSong = this.currentAlbum.songs[currentTrackIndex];
         },
+        seek: function(time) {
+            // Checks to make sure that a sound file is playing before seeking
+            if (currentSoundFile) {
+                // Uses a Buzz method to set the time of the song
+                currentSoundFile.setTime(time);
+            }
+        },
         setSong: function(album, song) {
             if (currentSoundFile) {
                 currentSoundFile.stop();
@@ -248,10 +255,14 @@ blocJams.directive('slider', ['$document', function() {
                 scope.value = percent * scope.max;
             };
 
-            var percentString = function() {
-                var percent = Number(scope.value) / Number(scope.max)  * 100;
+            // percentString()
+            var percentString = function percentString() {
+                // var percent = Number(scope.value) / Number(scope.max)  * 100;
+                var value = scope.value || 0;
+                var max = scope.max || 100;
+                var percent = value / max * 100;
                 return percent + '%';
-            };
+            }; //- percentString()
 
             scope.fillStyle = function() {
                 return {width: percentString()};
