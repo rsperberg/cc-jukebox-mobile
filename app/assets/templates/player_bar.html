@@ -20,7 +20,7 @@
                     <div class='fill'></div>
                     <div class='thumb'></div>
                 </div  -->                          <!-- replace with element directive, slider  -->
-                <slider></slider>
+                <slider value='{{playTime}}' max='{{songPlayer.currentSong.length}}'></slider>
                 <div class='current-time'>{{ songPlayer.playTime }}</div>
                 <div class='total-time'>{{ songPlayer.currentSong.length }}</div>
             </div>
