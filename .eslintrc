@@ -9,7 +9,7 @@
       "node": true,
       "console": false,
       "alert": false,
-      "blocJams": true
+      "$document": false
     },
    "rules": {
       "quotes": [2, "single", "avoid-escape"],
