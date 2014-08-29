@@ -147,6 +147,7 @@ blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
         currentSong: null,
         currentAlbum: null,
         playing: false,
+        volume: 90,
 
         play: function() {
             this.playing = true;
@@ -183,6 +184,12 @@ blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
         },
         onTimeUpdate: function(callback) {
             return $rootScope.$on('sound:timeupdate', callback);
+        },
+        setVoume: function(volume) {
+            if (currentSoundFile) {
+                currentSoundFile.setVolume(volume);   // this is a buzz method
+            }
+            this.volume = volume;
         },
         setSong: function(album, song) {
             if (currentSoundFile) {
