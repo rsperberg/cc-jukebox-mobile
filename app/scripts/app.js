@@ -14,6 +14,8 @@ var albumDouble = {
    ]
 };
 
+var muted = false;
+
 var blocJams = angular.module('BlocJams', ['ui.router']);
 // angular.module('BlocJams', []).controller('Landing.controller', ['$scope', function($scope) {
 //   console.log('Landing.controller');
@@ -51,7 +53,7 @@ blocJams.controller('Landing.controller', ['$scope', function($scope) {
 
     $scope.titleText = 'Bloc Jams';
     $scope.subText = 'Turn the music up!';
-    $scope.subTextClicked = function() {
+    $scope.subTextClicked = function subTextClicked() {
         $scope.subText += '!';
     };
     // shuffle()
@@ -79,14 +81,13 @@ $scope.titleTextClicked = shuffle(albumsArray);
 // blocJams.controller('Landing.controller'
 
 //
-// blocJams.controller('Collection.controller', ['$scope', function($scope) {
 blocJams.controller('Collection.controller', ['$scope','SongPlayer', function($scope, SongPlayer) {
     $scope.albums = [];
     for (var i = 0; i < 33; i++) {
         $scope.albums.push(angular.copy(albumDouble));
     }
 
-    $scope.playAlbum = function(album) {
+    $scope.playAlbum = function playAlbum(album) {
         SongPlayer.setSong(album, album.songs[0]); // Targets first song in the array.
     };
 }]);
@@ -99,14 +100,14 @@ blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger'
     var hoveredSong = null;
 //    var playingSong = null;
 
-    $scope.onHoverSong = function(song) {
+    $scope.onHoverSong = function onHoverSong(song) {
         hoveredSong = song;
     };
-    $scope.offHoverSong = function(song) {
+    $scope.offHoverSong = function offHoverSong(song) {
         hoveredSong = null;
     };
 
-    $scope.getSongState = function(song) {
+    $scope.getSongState = function getSongState(song) {
         if (song === SongPlayer.currentSong && SongPlayer.playing) {
             return 'playing';
         } else if (song === hoveredSong) {
@@ -115,30 +116,30 @@ blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger'
         return 'default';
     };
 
-    $scope.playSong = function(song) {
+    $scope.playSong = function playSong(song) {
         SongPlayer.setSong($scope.album, song);
 //        SongPlayer.play();  // info in chkpt 42 ambiguous about this change
     };
 
-    $scope.pauseSong = function(song) {
+    $scope.pauseSong = function pauseSong(song) {
       SongPlayer.pause();
     };
 }]);
 // blocJams.controller('Album.controller'
 
 //
-blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
+blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
     $scope.songPlayer = SongPlayer;
 
-    $scope.volumeClass = function() {
+    $scope.volumeClass = function volumeClass() {
         return {
-            'fa-volume-off': SongPlayer.volume == 0,
-            'fa-volume-down': SongPlayer.volume <= 70 && SongPlayer.volume > 0,
-            'fa-volume-up': SongPlayer.volume > 70
+            'fa-volume-off': SongPlayer.volume === 0 || muted === true,
+            'fa-volume-down': SongPlayer.volume <= 70 && SongPlayer.volume > 0 && muted === false,
+            'fa-volume-up': SongPlayer.volume > 70 && muted === false
         };
     };
-    SongPlayer.onTimeUpdate(function(event, time) {
-        $scope.$apply(function() {
+    SongPlayer.onTimeUpdate(function onTimeUpdate(event, time) {
+        $scope.$apply(function playTime() {
             $scope.playTime = time;
         });
     });
@@ -148,7 +149,7 @@ blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLog
 //
 blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
     var currentSoundFile = null;
-    var trackIndex = function(album, song) {
+    var trackIndex = function trackIndex(album, song) {
         return album.songs.indexOf(song);
     };
     return {
@@ -157,15 +158,19 @@ blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
         playing: false,
         volume: 90,
 
-        play: function() {
+        iconMute: function iconMute() {
+            muted = !muted;
+            currentSoundFile.toggleMute();
+        },
+        play: function play() {
             this.playing = true;
             currentSoundFile.play();
         },
-        pause: function() {
+        pause: function parse() {
             this.playing = false;
             currentSoundFile.pause();
         },
-        next: function() {
+        next: function next() {
             var currentTrackIndex = trackIndex(this.currentAlbum, this.currentSong);
             currentTrackIndex++;
             if (currentTrackIndex >= this.currentAlbum.songs.length) {
@@ -174,7 +179,7 @@ blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
              var song = this.currentAlbum.songs[currentTrackIndex];
              this.setSong(this.currentAlbum, song);
         },
-        previous: function() {
+        previous: function previous() {
             var currentTrackIndex = trackIndex(this.currentAlbum, this.currentSong);
             currentTrackIndex--;
             if (currentTrackIndex < 0) {
@@ -183,7 +188,7 @@ blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
             var song = this.currentAlbum.songs[currentTrackIndex];
             this.setSong(this.currentAlbum, song);
         },
-        seek: function(time) {
+        seek: function seek(time) {
             // Checks to make sure that a sound file is playing before seeking
             if (currentSoundFile) {
                 // Uses a Buzz method to set the time of the song
@@ -193,13 +198,13 @@ blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
         onTimeUpdate: function(callback) {
             return $rootScope.$on('sound:timeupdate', callback);
         },
-        setVoume: function(volume) {
+        setVolume: function setVolume(volume) {
             if (currentSoundFile) {
                 currentSoundFile.setVolume(volume);   // this is a buzz method
             }
             this.volume = volume;
         },
-        setSong: function(album, song) {
+        setSong: function setSong(album, song) {
             if (currentSoundFile) {
                 currentSoundFile.stop();
             }
@@ -210,6 +215,7 @@ blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
                 formats: [ 'mp3' ],
                 preload: true
             });
+            currentSoundFile.setVolume(this.volume);
 
             currentSoundFile.bind('timeupdate', function(e) {
                 $rootScope.$broadcast('sound:timeupdate', this.getTime());
@@ -232,7 +238,7 @@ blocJams.service('ConsoleLogger', function() {
 //blocJams.service('ConsoleLogger'
 
 //
-blocJams.directive('slider', ['$document', function() {
+blocJams.directive('slider', ['$document', function slider() {
     // Returns a number between 0 and 1 to determine where the mouse event happened along the slider bar
     // calculateSliderPercentFromMouseEvent()
     var calculateSliderPercentFromMouseEvent = function calculateSliderPercentFromMouseEvent($slider, event) {
@@ -271,14 +277,21 @@ blocJams.directive('slider', ['$document', function() {
             scope.max = 100;
             var $seekBar = $(element);
 
-            attributes.$observe('value', function(newValue) {
+            attributes.$observe('value', function valueObserve(newValue) {
                 scope.value = numberFromValue(newValue, 0);
             });
-            attributes.$observe('max', function(newValue) {
+            attributes.$observe('max', function maxObserve(newValue) {
                 scope.max = numberFromValue(newValue, 100) || 100;
             });
 
-            scope.onClickSlider = function(event) {
+            // notifyCallback()
+            var notifyCallback = function notifyCallback(newValue) {
+                if (typeof scope.onChange === 'function') {
+                    scope.onChange({value: newValue});
+                }
+            }; //- notifyCallback()
+
+            scope.onClickSlider = function onClickSlider(event) {
                 var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
                 scope.value = percent * scope.max;
                 notifyCallback(scope.value);
@@ -293,15 +306,15 @@ blocJams.directive('slider', ['$document', function() {
                 return percent + '%';
             }; //- percentString()
 
-            scope.fillStyle = function() {
+            scope.fillStyle = function fillStyle() {
                 return {width: percentString()};
             };
 
-            scope.thumbStyle = function() {
+            scope.thumbStyle = function thumbStyle() {
                 return {left: percentString()};
             };
 
-            scope.trackThumb = function() {
+            scope.trackThumb = function trackThumb() {
                 $document.bind('mousemove.thumb', function(event) {
                     var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
                     scope.$apply(function() {
@@ -317,13 +330,6 @@ blocJams.directive('slider', ['$document', function() {
                 });
             };
 
-            // notifyCallback()
-            var notifyCallback = function notifyCallback(newValue) {
-                if (typeof scope.onChange === 'function') {
-                    scope.onChange({value: newValue});
-                }
-            }; //- notifyCallback()
-
         }  // link: function
     };  // return (within slider)
 }]);
@@ -332,6 +338,7 @@ blocJams.directive('slider', ['$document', function() {
 //
 blocJams.filter('timecode', function() {
     return function(seconds) {
+        seconds = Number.parseFloat(seconds);
 
         // Returned when no time is provided
         if (Number.isNaN(seconds)) {
