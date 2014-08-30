@@ -1,6 +1,6 @@
 # Brunch app
 
-This is HTML5 application, built with [Brunch](http://brunch.io).
+This is HTML5 application, built with [Brunch](http://brunch.io), taken from bloc.io.
 
 ## Getting started
 * Install (if you don't have them):
