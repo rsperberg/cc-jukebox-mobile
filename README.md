@@ -1,7 +1,11 @@
-# Brunch app
+# A mobile jukebox
 
-This is HTML5 application, built with [Brunch](http://brunch.io), taken from bloc.io.
+There are all kinds of jukebox/music players on the web, but how about one that plays music that's free to listen to and that is free of ads and other restrictions? So I've built the CC Jukebox to play [Creative Commons](http://creativecommons.org/)-licensed music located at the [Free Music Archive](http://freemusicarchive.org/) on a cellphone.
 
+This is an HTML5 application built for mobile and forked from a project emulating [rdio](en.us.rdio.com/) that I did at bloc.io called [BlocJams](https://github.com/rsperberg/bloc-jams). BlocJams was built using [Brunch](http://brunch.io), an HTML5 build tool that's simpler and easier to use than Grunt.(see next section) .
+
+
+# Using Brunch
 ## Getting started
 * Install (if you don't have them):
     * [Node.js](http://nodejs.org): `brew install node` on OS X
