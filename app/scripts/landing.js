@@ -1,3 +1,5 @@
+// Now unused.  Built on jquery
+
 $(document).ready(function() {
    $('.hero-content h3').click(function h3Click() {
       var subText = $(this).text();

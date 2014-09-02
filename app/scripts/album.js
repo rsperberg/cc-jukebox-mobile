@@ -1,3 +1,5 @@
+// unused. Built on jquery
+
 // Example album
 var albumDouble = {
  name: 'Double Sextet / 2x5',

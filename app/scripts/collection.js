@@ -1,3 +1,5 @@
+//now unused.  Built on jquery
+
 function buildAlbumThumbnail() {
    'use strict';
     var template =
