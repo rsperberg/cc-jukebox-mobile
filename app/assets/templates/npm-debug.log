@@ -9,10 +9,10 @@
 6 error     <http://github.com/npm/npm/issues>
 7 error System Linux 3.2.0-23-generic-pae
 8 error command "/usr/local/bin/node" "/usr/local/bin/npm" "start"
-9 error cwd /vagrant/bloc-jams/app/assets/templates
+9 error cwd /User/sperberx/dev/cc-jukebox-mobile/app/assets/templates
 10 error node -v v0.10.29
 11 error npm -v 1.4.14
-12 error path /vagrant/bloc-jams/app/assets/templates/package.json
+12 error path /User/sperberx/dev/cc-jukebox-mobile/app/assets/templates/package.json
 13 error code ENOENT
 14 error errno 34
 15 verbose exit [ 34, true ]
