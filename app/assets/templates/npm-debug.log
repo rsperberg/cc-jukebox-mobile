@@ -3,7 +3,7 @@
 2 info using npm@1.4.14
 3 info using node@v0.10.29
 4 verbose node symlink /usr/local/bin/node
-5 error Error: ENOENT, open '/vagrant/bloc-jams/app/assets/templates/package.json'
+5 error Error: ENOENT, open '/User/sperberx/dev/cc-jukebox-mobile/app/assets/templates/package.json'
 6 error If you need help, you may report this *entire* log,
 6 error including the npm and node versions, at:
 6 error     <http://github.com/npm/npm/issues>

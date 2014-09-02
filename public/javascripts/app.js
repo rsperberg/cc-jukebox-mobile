@@ -91,6 +91,8 @@
   globals.require.brunch = true;
 })();
 require.register("scripts/album", function(exports, require, module) {
+// unused. Built on jquery
+
 // Example album
 var albumDouble = {
  name: 'Double Sextet / 2x5',
@@ -322,10 +324,8 @@ var albumDouble = {
 
 var muted = false;
 
-var blocJams = angular.module('BlocJams', ['ui.router']);
-// angular.module('BlocJams', []).controller('Landing.controller', ['$scope', function($scope) {
-//   console.log('Landing.controller');
-blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
+var ccJukebox = angular.module('ccJukebox', ['ui.router']);
+ccJukebox.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
    $locationProvider.html5Mode(true);
 
    $stateProvider.state('landing', {
@@ -351,14 +351,14 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
       templateUrl: '/templates/album.html'
    });
  }]);
-// blocJams.config(['$stateProvider', '$locationProvider'
+// ccJukebox.config(['$stateProvider', '$locationProvider'
 
 //
  // This is a cleaner way to call the controller than crowding it on the module definition.
-blocJams.controller('Landing.controller', ['$scope', function($scope) {
+ccJukebox.controller('Landing.controller', ['$scope', function($scope) {
 
-    $scope.titleText = 'Bloc Jams';
-    $scope.subText = 'Turn the music up!';
+    $scope.titleText = 'CC Jukebox';
+    $scope.subText = 'Free your music!';
     $scope.subTextClicked = function subTextClicked() {
         $scope.subText += '!';
     };
@@ -384,10 +384,10 @@ $scope.albumURLs = albumsArray;
 $scope.titleTextClicked = shuffle(albumsArray);
 
 }]);
-// blocJams.controller('Landing.controller'
+// ccJukebox.controller('Landing.controller'
 
 //
-blocJams.controller('Collection.controller', ['$scope','SongPlayer', function($scope, SongPlayer) {
+ccJukebox.controller('Collection.controller', ['$scope','SongPlayer', function($scope, SongPlayer) {
     $scope.albums = [];
     for (var i = 0; i < 33; i++) {
         $scope.albums.push(angular.copy(albumDouble));
@@ -397,10 +397,10 @@ blocJams.controller('Collection.controller', ['$scope','SongPlayer', function($s
         SongPlayer.setSong(album, album.songs[0]); // Targets first song in the array.
     };
 }]);
-// blocJams.controller('Collection.controller'
+// ccJukebox.controller('Collection.controller'
 
 //
-blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
+ccJukebox.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
     $scope.album = angular.copy(albumDouble);
 //   ConsoleLogger.logIt();
     var hoveredSong = null;
@@ -431,10 +431,10 @@ blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger'
       SongPlayer.pause();
     };
 }]);
-// blocJams.controller('Album.controller'
+// ccJukebox.controller('Album.controller'
 
 //
-blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
+ccJukebox.controller('PlayerBar.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
     $scope.songPlayer = SongPlayer;
 
     $scope.volumeClass = function volumeClass() {
@@ -450,10 +450,10 @@ blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', function($s
         });
     });
 }]);
-//blocJams.controller('PlayerBar.controller'
+//ccJukebox.controller('PlayerBar.controller'
 
 //
-blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
+ccJukebox.service('SongPlayer', ['$rootScope', function($rootScope) {
     var currentSoundFile = null;
     var trackIndex = function trackIndex(album, song) {
         return album.songs.indexOf(song);
@@ -531,20 +531,20 @@ blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
         }  //setSong
     };
 }]);
-//blocJams.service('SongPlayer')
+//ccJukebox.service('SongPlayer')
 
 //
-blocJams.service('ConsoleLogger', function() {
+ccJukebox.service('ConsoleLogger', function() {
     return {
         logIt: function() {
             console.log('Hello, World!');
         }
 };
 });
-//blocJams.service('ConsoleLogger'
+//ccJukebox.service('ConsoleLogger'
 
 //
-blocJams.directive('slider', ['$document', function slider() {
+ccJukebox.directive('slider', ['$document', function slider() {
     // Returns a number between 0 and 1 to determine where the mouse event happened along the slider bar
     // calculateSliderPercentFromMouseEvent()
     var calculateSliderPercentFromMouseEvent = function calculateSliderPercentFromMouseEvent($slider, event) {
@@ -639,10 +639,10 @@ blocJams.directive('slider', ['$document', function slider() {
         }  // link: function
     };  // return (within slider)
 }]);
-//   blocJams.directive('slider'...
+//   ccJukebox.directive('slider'...
 
 //
-blocJams.filter('timecode', function() {
+ccJukebox.filter('timecode', function() {
     return function(seconds) {
         seconds = Number.parseFloat(seconds);
 
@@ -665,11 +665,13 @@ blocJams.filter('timecode', function() {
         return output;
     };
 });
-// blocJams.filter('timecode'
+// ccJukebox.filter('timecode'
 
 });
 
 ;require.register("scripts/collection", function(exports, require, module) {
+//now unused.  Built on jquery
+
 function buildAlbumThumbnail() {
    'use strict';
     var template =
@@ -744,6 +746,8 @@ if (document.URL.match(/\/collection.html/)) {
 });
 
 ;require.register("scripts/landing", function(exports, require, module) {
+// Now unused.  Built on jquery
+
 $(document).ready(function() {
    $('.hero-content h3').click(function h3Click() {
       var subText = $(this).text();
@@ -781,6 +785,8 @@ $('.logo ').click(function logoClick() {
 });
 
 ;require.register("scripts/profile", function(exports, require, module) {
+//Now unused ? Maybe use later ?  Built on jquery
+
 // holds the name of our tab button container for selection later in the function
 var tabsContainer = '.user-profile-tabs-container';
 function selectTabHandler(event) {
