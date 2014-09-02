@@ -1,0 +1,11 @@
+links to sites with cc music or info about them
+
+http://en.wikipedia.org/wiki/List_of_online_music_databases
+http://stackoverflow.com/questions/3988760/is-there-a-free-database-or-web-service-api-for-music-information-albums-artis
+http://www.programmableweb.com/news/25-music-apis/2008/02/21
+http://freemusicarchive.org/
+http://creativecommons.org/music-communities
+
+also look at:
+http://www.last.fm/api
+http://www.ranker.com/list/all-music-apis/api-list
