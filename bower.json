@@ -1,6 +1,6 @@
 {
-  "name": "your-app",
-  "version": "0.0.1",
+  "name": "cc-jukebox",
+  "version": "0.1.1",
   "main": "public/app.js",
   "dependencies": {},
   "overrides": {},
