@@ -16,7 +16,7 @@ var albumDouble = {
 
 var muted = false;
 
-var ccJukebox = angular.module('CcJukebox', ['ui.router']);
+var ccJukebox = angular.module('ccJukebox', ['ui.router']);
 ccJukebox.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
    $locationProvider.html5Mode(true);
 
@@ -50,7 +50,7 @@ ccJukebox.config(['$stateProvider', '$locationProvider', function($stateProvider
 ccJukebox.controller('Landing.controller', ['$scope', function($scope) {
 
     $scope.titleText = 'CC Jukebox';
-    $scope.subText = 'Turn the music up!';
+    $scope.subText = 'Free your music!';
     $scope.subTextClicked = function subTextClicked() {
         $scope.subText += '!';
     };
