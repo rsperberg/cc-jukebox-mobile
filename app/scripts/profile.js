@@ -1,4 +1,4 @@
-//No unused  Built on jquery
+//Now unused ? Maybe use later ?  Built on jquery
 
 // holds the name of our tab button container for selection later in the function
 var tabsContainer = '.user-profile-tabs-container';
