@@ -1,8 +1,9 @@
 
  <div class='hero-content'> <!-- Hero content -->
    <div class='container'>
-     <h1> CC Jukebox </h1>
-     <h3 ng_click="subTextClicked()"> {{ subText }} </h3>
+     <h1> {{ titleText }} </h1>
+     <h3> {{ subText }} </h3>
+     <!--  h3 ng_click="subTextClicked()"> {{ subText }} </h3  -->
    </div>
  </div>
 
@@ -10,15 +11,15 @@
    <div class='row'>
      <div class='point col-md-4'>
        <h5> Choose your music </h5>
-       <p> The world is full of music, why should you have to listen to music that you have to pay for? </p>
+       <p> The world is full of music — why should you have to pay a service just to listen to music? </p>
      </div>
      <div class='point col-md-4'>
-       <h5> Unlimited, streaming, ad-free </h5>
-       <p> No arbitrary limits. No distractions </p>
+       <h5> Free, unlimited, streaming, ad-free </h5>
+       <p> No arbitrary limits. No distractions. No cost. </p>
      </div>
      <div class='point col-md-4'>
        <h5>Mobile enabled</h5>
-       <p> Listen to your music on the go. This streaming service is available on all mobile platforms</p>
+       <p> Listen to your music on the go. This streaming service is available on all mobile platforms.</p>
      </div>
    </div>
  </div>
@@ -26,7 +27,7 @@
  <div class="landing-album-list container">
    <div class="row">
      <div class="col-md-4" ng-repeat="albumURL in albumURLs">
-       <img  ng-src="{{albumURL}}">
+       <img  ng-src="{{albumURL}}" class="img-responsive">
      </div>
    </div>
  </div>
