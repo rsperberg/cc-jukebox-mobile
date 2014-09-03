@@ -4,6 +4,7 @@ There are all kinds of jukebox/music players on the web, but how about one that 
 
 This is an HTML5 application built for mobile and forked from a project emulating [rdio](en.us.rdio.com/) that I did at bloc.io called [BlocJams](https://github.com/rsperberg/bloc-jams). BlocJams was built using [Brunch](http://brunch.io), an HTML5 build tool that's simpler and easier to use than Grunt.(see next section) .
 
+You can see a demo of CC Jukebox running at [cc-jukebox-mobile.herokuapp.com](http://cc-jukebox-mobile.herokuapp.com).
 
 # Making use of Brunch
 ## Getting started
