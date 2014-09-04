@@ -1,4 +1,4 @@
-  .player-bar {
+.player-bar {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -8,93 +8,93 @@
     z-index: 100;
 
     a, a:hover {
-      color: white;
-      cursor: pointer;
-      text-decoration: none;
+        color: white;
+        cursor: pointer;
+        text-decoration: none;
     }
 
     .container {
-      display: table;
-      padding: 0;
-      min-height: 100%;
+        display: table;
+        padding: 0;
+        min-height: 100%;
     }
 
     .left-controls {
-      width: 25%;
-      text-align: left;
+        width: 25%;
+        text-align: left;
     }
 
     .right-controls {
-      width: 25%;
-      text-align: right;
+        width: 25%;
+        text-align: right;
     }
 
     .play-controls {
-      a {
-        font-size: 20px;
-        vertical-align: middle;
-      }
+        a {
+            font-size: 20px;
+            vertical-align: middle;
+        }
 
-      .previous {
-        margin-right: 65px;
-      }
+        .previous {
+            margin-right: 65px;
+        }
 
-      .play-pause {
-        margin-right: 60px;
-        font-size: 30px
-      }
+        .play-pause {
+            margin-right: 60px;
+            font-size: 30px
+        }
     }
 
     .currently-playing {
-      width: 50%;
-      text-align: center;
-      position: relative;
-
-      .song-name, .artist-name {
+        width: 50%;
         text-align: center;
-        font-size: 12px;
-        margin: 0;
-        position: absolute;
-        width: 100%;
-        font-size: 16px;
-        font-weight: 300;
-      }
-      .song-name {
-        top: 20px;
-      }
-      .artist-name {
-        bottom: 20px;
-      }
+        position: relative;
+
+        .song-name, .artist-name {
+            text-align: center;
+            font-size: 12px;
+            margin: 0;
+            position: absolute;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 300;
+        }
+        .song-name {
+            top: 20px;
+        }
+        .artist-name {
+            bottom: 20px;
+        }
     }
 
     .queue-toggle {
-      display: inline-block;
-      margin-left: 75px;
+        display: inline-block;
+        margin-left: 75px;
 
-      i {
-        font-size: 20px;
-      }
+        i {
+            font-size: 20px;
+        }
     }
 
     .volume {
-      display: inline-block;
-
-      i {
-        width: 20px;
-        font-size: 20px;
         display: inline-block;
-        vertical-align: middle;
-        text-align: left;
-      }
 
-      .seek-bar,               /* original name  */
-      .slider {
-        display: inline-block;
-        width: 100px;
-        vertical-align: middle;
-      }
+        i {
+            width: 20px;
+            font-size: 20px;
+            display: inline-block;
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        .seek-bar,               /* original name  */
+        .slider {
+            display: inline-block;
+            width: 100px;
+            vertical-align: middle;
+        }
     }
-  }
+}
 
   .player-bar-control-group {
     display: table-cell;
