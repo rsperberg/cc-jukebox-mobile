@@ -50,7 +50,7 @@ div.point p {
     perspective: 1000;
 } /* used with flipping album cover */
 
-.flip-container:hover .flipper, .flip-container.hover .flipper, .flip-container:focus .flipper {
+.flip-container:hover .flipper, .flip-container.hover .flipper, .flip-container:focus .flipper, .flip-container:active .flipper {
     transform: rotateY(180deg);
 }
 
