@@ -27,7 +27,7 @@
 <div class="landing-album-list container">
     <div class="row" data-ng-repeat="row in albumURLs">
         <div  class="col-md-4" data-ng-repeat="albumURL in row">
-            <div class="flip-container" ng-click="this.classList.toggle('hover');">
+            <div class="flip-container" ng-click="this.classList.toggle('hover');" onclick=””>
                 <div class="flipper">
                     <div class="front">
                         <img  ng-src="{{albumURL}}">
