@@ -36,14 +36,14 @@ div.point p {
   text-align: center;
   padding-top: 20px; }
 
-.flip-container {
+.flipcontainer {
   perspective: 1000; }
 
 /* used with flipping album cover */
-.flip-container:hover .flipper, .flip-container.hover .flipper, .flip-container:focus .flipper, .flip-container:active .flipper {
+.flipcontainer:hover .flipper, .flipcontainer.hover .flipper, .flipcontainer:focus .flipper, .flipcontainer:active .flipper {
   transform: rotateY(180deg); }
 
-.flip-container, .front, .back {
+.flipcontainer, .front, .back {
   width: 400px;
   height: 400px; }
 

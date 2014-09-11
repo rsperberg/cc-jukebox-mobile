@@ -27,8 +27,8 @@
 <div class="landing-album-list container">
     <div class="row" data-ng-repeat="row in albumURLs">
         <div  class="col-md-4" data-ng-repeat="albumURL in row">
-            <div class="flip-container" ng-class="{flipper: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false;">
-            <!--  div class="flip-container" ng-mouseover="this.classList.toggle('hover'); this.classList.toggle('focus'); this.classList.toggle('active');"  -->
+            <div class="flipcontainer" ng-class="{flipcontainer: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false;">
+            <!--  div class="flipcontainer" ng-mouseover="this.classList.toggle('hover'); this.classList.toggle('focus'); this.classList.toggle('active');"  -->
                 <div class="flipper">
                     <div class="front">
                         <img  ng-src="{{albumURL}}">
