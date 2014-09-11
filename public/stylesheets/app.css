@@ -12,9 +12,9 @@
   padding: 100px 0;
   /*.point */ }
   .selling-points .point {
-    width: 32%;
+    width: 33.3%;
     float: left;
-    padding: 0 0.5%; }
+    padding: 0 2%; }
     .selling-points .point h5 {
       font-size: 24px;
       font-weight: bold;
@@ -25,6 +25,50 @@
       font-size: 14px; }
 
 /* .selling-points */
+div.selling-points div.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important; }
+
+div.point p {
+  margin-left: 10px; }
+
+.album-back-cover {
+  text-align: center;
+  padding-top: 20px; }
+
+.flip-container {
+  perspective: 1000; }
+
+/* used with flipping album cover */
+.flip-container:hover .flipper, .flip-container.hover .flipper {
+  transform: rotateY(180deg); }
+
+.flip-container, .front, .back {
+  width: 400px;
+  height: 400px; }
+
+/* flip speed goes here */
+.flipper {
+  transition: 0.6s;
+  transform-style: preserve-3d;
+  position: relative; }
+
+/* hide back of pane during swap */
+.front, .back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+/* front pane, placed above back */
+.front {
+  z-index: 2; }
+
+/* back, initially hidden pane */
+.back {
+  transform: rotateY(180deg);
+  background-color: #cccccc; }
+
 .album-header-container {
   margin-top: 55px;
   margin-bottom: 40px; }
@@ -345,7 +389,8 @@ td.song-number {
     margin-left: auto;
     margin-right: auto;
     width: 280px;
-    /* Width of the album image. */ } }
+    /* Width of the album image. */
+    height: 280px; } }
 
 html {
   height: 100%; }
@@ -404,7 +449,8 @@ body.landing .navbar {
     margin-left: auto;
     margin-right: auto;
     width: 280px;
-    /* Width of the album image. */ } }
+    /* Width of the album image. */
+    height: 280px; } }
 
 
 /*# sourceMappingURL=app.css.map*/
